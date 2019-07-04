@@ -7,15 +7,14 @@ Download model on local computer
 ```
 # down 
 curl -O https://s3-us-west-2.amazonaws.com/aws-tf-serving-ei-example/ssd_resnet.zip
-unzip ssd_resnet.zip -d /
 ```
 # How to call the model and interface to automated.ai
-1) upload this github 
-2) upload the model downloaded to the computer 
-3) call the model with a numpy array that produces the class names like bellow 
+1) Upload this github repo
+2) Upload the zipped model downloaded to the computer to the Algorithm Cloud 
+3) Call the model with a numpy array that produces the class names like bellow 
 
 ```
-# load the model 
+# Load the Model 
 from ssd_resnet_predictor import CoCoResnet
 Model = CoCoResnet()
 # using the model

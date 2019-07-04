@@ -8,6 +8,7 @@ import numpy as np
 import tensorflow as tf
 import matplotlib.image as mpimg
 from tensorflow.contrib.ei.python.predictor.ei_predictor import EIPredictor
+import zipfile
 
 class CoCoResnet(object):
   """Class to load Co model and run inference."""
@@ -18,8 +19,12 @@ class CoCoResnet(object):
       with open("coco-labels-paper.txt") as f:
         self.classes = ["No Class"] + [line.strip() for line in f.readlines()]
 
+      if not os.path.exists("/ssd_resnet50_v1_coco/"):
+        with zipfile.ZipFile("ssd_resnet.zip","r") as zip_ref:
+          zip_ref.extractall("ssd_resnet50_v1_coco")
+
       self.eia_predictor = EIPredictor(
-          model_dir='/',
+          model_dir='ssd_resnet50_v1_coco/ssd_resnet50_v1_coco/1/',
           input_names={"inputs": "image_tensor:0"},
           output_names={"detection_classes": "detection_classes:0", "num_detections": "num_detections:0",
                         "detection_boxes": "detection_boxes:0"},
