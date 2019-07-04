@@ -19,7 +19,7 @@ class CoCoResnet(object):
         self.classes = ["No Class"] + [line.strip() for line in f.readlines()]
 
       self.eia_predictor = EIPredictor(
-          model_dir='/ssd_resnet50_v1_coco/1/',
+          model_dir='/',
           input_names={"inputs": "image_tensor:0"},
           output_names={"detection_classes": "detection_classes:0", "num_detections": "num_detections:0",
                         "detection_boxes": "detection_boxes:0"},
