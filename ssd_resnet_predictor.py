@@ -11,10 +11,9 @@ from tensorflow.contrib.ei.python.predictor.ei_predictor import EIPredictor
 import zipfile
 
 class CoCoResnet(object):
-  """Class to load Co model and run inference."""
-
+  """Class to load CoCo model and run inference."""
   def __init__(self):
-      """Creates and loads pretrained deeplab model."""
+      """Unzips and loads pretrained deeplab model."""
       self.NUM_PREDICTIONS = 5
       with open("coco-labels-paper.txt") as f:
         self.classes = ["No Class"] + [line.strip() for line in f.readlines()]
@@ -30,25 +29,18 @@ class CoCoResnet(object):
                         "detection_boxes": "detection_boxes:0"},
       )
 
-
   def run(self, image):
-      """Runs inference on a single image.
-      Args:
-        image: A numpy image
-      Returns: List of detection names in the image
+      """Runs inference on a single image and returns a list of classses
       """
       img = np.expand_dims(image, axis=0)
-      ssd_resnet_input = {'inputs': img}
-
       pred = None
       for curpred in range(self.NUM_PREDICTIONS):
-        pred = self.eia_predictor(ssd_resnet_input)
+        pred = self.eia_predictor({'inputs': img})
 
       num_detections = int(pred["num_detections"])
       # print("%d detection[s]" % (num_detections))
       detection_classes = pred["detection_classes"][0][:num_detections]
       # print([self.classes[int(i)] for i in detection_classes])
-
       return [self.classes[int(i)] for i in detection_classes]
 
 if __name__ == "__main__":
